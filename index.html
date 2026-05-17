@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Level Calculator</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #0f0f0f;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: #1c1c1c;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+input[type=range] {
+    width: 100%;
+}
+
+input[type=number] {
+    width: 80px;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #333;
+    padding: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Level Calculator</h2>
+
+    <input type="range" min="1" max="150" value="1" id="slider">
+    <br>
+
+    <input type="number" min="1" max="150" value="1" id="levelInput">
+
+    <h3 id="result">XP: 100</h3>
+    <h4 id="total">Total XP: 100</h4>
+
+    <table id="table">
+        <tr><th>Level</th><th>XP</th><th>Total</th></tr>
+    </table>
+</div>
+
+<script>
+const base = 100;
+const growth = 1.2;
+
+const slider = document.getElementById("slider");
+const input = document.getElementById("levelInput");
+const result = document.getElementById("result");
+const total = document.getElementById("total");
+const table = document.getElementById("table");
+
+function xp(level) {
+    return base * Math.pow(growth, level - 1);
+}
+
+function totalXp(level) {
+    return base * (Math.pow(growth, level) - 1) / (growth - 1);
+}
+
+function update(level) {
+    level = Math.min(150, Math.max(1, level));
+
+    slider.value = level;
+    input.value = level;
+
+    result.innerText = "XP: " + xp(level).toFixed(2);
+    total.innerText = "Total XP: " + totalXp(level).toFixed(2);
+}
+
+slider.oninput = () => update(slider.value);
+input.oninput = () => update(input.value);
+
+// Tabelle
+for (let i = 1; i <= 150; i++) {
+    let row = table.insertRow();
+    row.insertCell(0).innerText = i;
+    row.insertCell(1).innerText = xp(i).toFixed(2);
+    row.insertCell(2).innerText = totalXp(i).toFixed(2);
+}
+
+update(1);
+</script>
+
+</body>
+</html>
