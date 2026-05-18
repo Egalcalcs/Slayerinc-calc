@@ -16,7 +16,7 @@
 
 <div class="grid">
 
-<!-- LEFT -->
+<!-- INPUT -->
 <div class="card">
 
 <h2>Setup</h2>
@@ -28,22 +28,26 @@
 <input id="target" type="number" value="10">
 
 <label>XP per Hit</label>
+
+<div class="row">
+
 <input id="xphit" type="number" value="10">
 
-<label>Multiplier</label>
-<select id="multiplier">
-<option value="1">1</option>
+<select id="xpMulti">
+<option value="1">Base</option>
 <option value="1000">K</option>
 <option value="1000000">M</option>
 <option value="1000000000">B</option>
 <option value="1000000000000">T</option>
 </select>
 
+</div>
+
 <button onclick="calculate()">CALCULATE</button>
 
 </div>
 
-<!-- RIGHT -->
+<!-- OUTPUT -->
 <div class="card">
 
 <h2>Results</h2>
