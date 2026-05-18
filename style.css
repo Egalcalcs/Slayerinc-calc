@@ -1,68 +1,81 @@
-body{
-margin:0;
-font-family:Arial;
-background:linear-gradient(120deg,#0f172a,#1e293b);
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
+// ---------- FORMAT NUMBERS ----------
+function format(num){
+
+let units = ["","K","M","B","T","QD","QN","SX","SP","OC","NO"];
+
+let tier = Math.floor(Math.log10(Math.abs(num)) / 3);
+
+if(tier <= 0) return num.toFixed(2);
+
+let scaled = num / Math.pow(1000, tier);
+
+return scaled.toFixed(2) + units[tier];
 }
 
-.container{
-width:90%;
-max-width:1000px;
+// ---------- XP CURVE ----------
+function xpNeeded(level){
+return 100 * Math.pow(1.2, level);
 }
 
-h1{
-text-align:center;
-margin-bottom:20px;
-color:#38bdf8;
-text-shadow:0 0 10px #38bdf8;
+// ---------- ATTACK SPEED SYSTEM ----------
+function attackSpeed(level){
+
+let base = 0.8;
+let mult = Math.pow(1.0629, Math.min(level, 20));
+
+return base * mult;
 }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
+// ---------- MAIN CALC ----------
+function calculate(){
+
+let level = parseFloat(document.getElementById("level").value);
+let target = parseFloat(document.getElementById("target").value);
+
+let xpHit = parseFloat(document.getElementById("xphit").value);
+let xpMulti = parseFloat(document.getElementById("xpMulti").value);
+
+// total XP
+let totalXP = 0;
+
+for(let i = level; i < target; i++){
+totalXP += xpNeeded(i);
 }
 
-.card{
-background:#111827;
-padding:20px;
-border-radius:15px;
-box-shadow:0 0 20px rgba(0,0,0,0.5);
+// real XP per hit
+let xpPerHit = xpHit * xpMulti;
+
+// attack speed
+let atk = attackSpeed(level);
+
+// hits
+let hits = totalXP / xpPerHit;
+
+// time (seconds)
+let seconds = hits / atk;
+
+// output
+document.getElementById("result").innerHTML = `
+
+<b>Total XP:</b> ${format(totalXP)}<br>
+<b>Attack Speed:</b> ${atk.toFixed(3)} /s<br><br>
+
+<b>Time Needed:</b><br>
+${formatTime(seconds)}
+
+`;
 }
 
-h2{
-color:#22d3ee;
-}
+// ---------- TIME FORMAT ----------
+function formatTime(sec){
 
-input, select{
-width:100%;
-padding:10px;
-margin:10px 0;
-border:none;
-border-radius:8px;
-background:#0f172a;
-color:white;
-}
+let min = sec / 60;
+let hour = min / 60;
+let day = hour / 24;
 
-button{
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-background:#22d3ee;
-font-weight:bold;
-cursor:pointer;
-}
+if(day >= 1) return day.toFixed(2) + " days";
+if(hour >= 1) return hour.toFixed(2) + " hours";
+if(min >= 1) return min.toFixed(2) + " minutes";
 
-button:hover{
-background:#0ea5e9;
-}
-
-#result{
-font-size:18px;
-line-height:1.6;
+return sec.toFixed(2) + " seconds";
 }
