@@ -1,81 +1,48 @@
-body{
-margin:0;
-font-family:Arial;
-background:linear-gradient(120deg,#0b1220,#111827);
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
+function format(n){
+
+let u=["","K","M","B","T","QD","QN","SX","SP","OC","NO"];
+
+let t=Math.floor(Math.log10(Math.abs(n))/3);
+
+if(t<=0) return n.toFixed(2);
+
+return (n/Math.pow(1000,t)).toFixed(2)+u[t];
 }
 
-.container{
-width:90%;
-max-width:1000px;
+function xp(level){
+return 100*Math.pow(1.2,level);
 }
 
-h1{
-text-align:center;
-color:#38bdf8;
-text-shadow:0 0 10px #38bdf8;
-margin-bottom:20px;
+function atk(level){
+return 0.8*Math.pow(1.0629,Math.min(level,20));
 }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
+function time(sec){
+let m=sec/60,h=m/60,d=h/24;
+if(d>=1) return d.toFixed(2)+" days";
+if(h>=1) return h.toFixed(2)+" hours";
+if(m>=1) return m.toFixed(2)+" min";
+return sec.toFixed(2)+" sec";
 }
 
-.card{
-background:#0f172a;
-padding:20px;
-border-radius:15px;
-box-shadow:0 0 25px rgba(0,0,0,0.6);
-}
+function calc(){
 
-h2{
-color:#22d3ee;
-}
+let l=+level.value;
+let t=+target.value;
+let hit=+xphit.value;
+let mul=+xpMulti.value;
 
-input, select{
-padding:10px;
-margin:10px 0;
-border:none;
-border-radius:8px;
-background:#020617;
-color:white;
-width:100%;
-}
+let total=0;
+for(let i=l;i<t;i++) total+=xp(i);
 
-.row{
-display:flex;
-gap:10px;
-}
+let xpHit=hit*mul;
+let speed=atk(l);
 
-.row input{
-flex:2;
-}
+let sec=total/xpHit/speed;
 
-.row select{
-flex:1;
-}
-
-button{
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-background:#22d3ee;
-font-weight:bold;
-cursor:pointer;
-}
-
-button:hover{
-background:#0ea5e9;
-}
-
-#result{
-font-size:18px;
-line-height:1.8;
+out.innerHTML=`
+XP Needed: <b>${format(total)}</b><br>
+Attack Speed: <b>${speed.toFixed(3)}/s</b><br>
+Time: <b>${time(sec)}</b>
+`;
 }
