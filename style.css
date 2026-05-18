@@ -1,81 +1,48 @@
-// ---------- FORMAT NUMBERS ----------
-function format(num){
+function format(n){
 
-let units = ["","K","M","B","T","QD","QN","SX","SP","OC","NO"];
+let u=["","K","M","B","T","QD","QN","SX","SP","OC","NO"];
 
-let tier = Math.floor(Math.log10(Math.abs(num)) / 3);
+let t=Math.floor(Math.log10(Math.abs(n))/3);
 
-if(tier <= 0) return num.toFixed(2);
+if(t<=0) return n.toFixed(2);
 
-let scaled = num / Math.pow(1000, tier);
-
-return scaled.toFixed(2) + units[tier];
+return (n/Math.pow(1000,t)).toFixed(2)+u[t];
 }
 
-// ---------- XP CURVE ----------
-function xpNeeded(level){
-return 100 * Math.pow(1.2, level);
+function xp(level){
+return 100*Math.pow(1.2,level);
 }
 
-// ---------- ATTACK SPEED SYSTEM ----------
-function attackSpeed(level){
-
-let base = 0.8;
-let mult = Math.pow(1.0629, Math.min(level, 20));
-
-return base * mult;
+function atk(level){
+return 0.8*Math.pow(1.0629,Math.min(level,20));
 }
 
-// ---------- MAIN CALC ----------
-function calculate(){
-
-let level = parseFloat(document.getElementById("level").value);
-let target = parseFloat(document.getElementById("target").value);
-
-let xpHit = parseFloat(document.getElementById("xphit").value);
-let xpMulti = parseFloat(document.getElementById("xpMulti").value);
-
-// total XP
-let totalXP = 0;
-
-for(let i = level; i < target; i++){
-totalXP += xpNeeded(i);
+function time(sec){
+let m=sec/60,h=m/60,d=h/24;
+if(d>=1) return d.toFixed(2)+" days";
+if(h>=1) return h.toFixed(2)+" hours";
+if(m>=1) return m.toFixed(2)+" min";
+return sec.toFixed(2)+" sec";
 }
 
-// real XP per hit
-let xpPerHit = xpHit * xpMulti;
+function calc(){
 
-// attack speed
-let atk = attackSpeed(level);
+let l=+level.value;
+let t=+target.value;
+let hit=+xphit.value;
+let mul=+xpMulti.value;
 
-// hits
-let hits = totalXP / xpPerHit;
+let total=0;
+for(let i=l;i<t;i++) total+=xp(i);
 
-// time (seconds)
-let seconds = hits / atk;
+let xpHit=hit*mul;
+let speed=atk(l);
 
-// output
-document.getElementById("result").innerHTML = `
+let sec=total/xpHit/speed;
 
-<b>Total XP:</b> ${format(totalXP)}<br>
-<b>Attack Speed:</b> ${atk.toFixed(3)} /s<br><br>
-
-<b>Time Needed:</b><br>
-${formatTime(seconds)}
-
+out.innerHTML=`
+XP Needed: <b>${format(total)}</b><br>
+Attack Speed: <b>${speed.toFixed(3)}/s</b><br>
+Time: <b>${time(sec)}</b>
 `;
-}
-
-// ---------- TIME FORMAT ----------
-function formatTime(sec){
-
-let min = sec / 60;
-let hour = min / 60;
-let day = hour / 24;
-
-if(day >= 1) return day.toFixed(2) + " days";
-if(hour >= 1) return hour.toFixed(2) + " hours";
-if(min >= 1) return min.toFixed(2) + " minutes";
-
-return sec.toFixed(2) + " seconds";
 }
