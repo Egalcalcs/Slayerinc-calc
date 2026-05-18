@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage Grinder Calculator</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Stage Grinder Calculator</h1>
+
+<div class="grid">
+
+<!-- LEFT -->
+<div class="card">
+
+<h2>Setup</h2>
+
+<label>Current Level</label>
+<input id="level" type="number" value="1">
+
+<label>Target Level</label>
+<input id="target" type="number" value="10">
+
+<label>XP per Hit</label>
+<input id="xphit" type="number" value="10">
+
+<label>Multiplier</label>
+<select id="multiplier">
+<option value="1">1</option>
+<option value="1000">K</option>
+<option value="1000000">M</option>
+<option value="1000000000">B</option>
+<option value="1000000000000">T</option>
+</select>
+
+<button onclick="calculate()">CALCULATE</button>
+
+</div>
+
+<!-- RIGHT -->
+<div class="card">
+
+<h2>Results</h2>
+
+<div id="result">Press calculate</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
