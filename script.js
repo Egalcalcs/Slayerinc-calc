@@ -1,48 +1,96 @@
-function format(n){
-
-let u=["","K","M","B","T","QD","QN","SX","SP","OC","NO"];
-
-let t=Math.floor(Math.log10(Math.abs(n))/3);
-
-if(t<=0) return n.toFixed(2);
-
-return (n/Math.pow(1000,t)).toFixed(2)+u[t];
+body{
+margin:0;
+font-family:Arial;
+background:#070b14;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+overflow:hidden;
 }
 
-function xp(level){
-return 100*Math.pow(1.2,level);
+.bg{
+position:absolute;
+width:600px;
+height:600px;
+background:#00f5ff30;
+filter:blur(120px);
+border-radius:50%;
+top:20%;
+left:50%;
+transform:translateX(-50%);
 }
 
-function atk(level){
-return 0.8*Math.pow(1.0629,Math.min(level,20));
+.app{
+position:relative;
+width:90%;
+max-width:1000px;
 }
 
-function time(sec){
-let m=sec/60,h=m/60,d=h/24;
-if(d>=1) return d.toFixed(2)+" days";
-if(h>=1) return h.toFixed(2)+" hours";
-if(m>=1) return m.toFixed(2)+" min";
-return sec.toFixed(2)+" sec";
+h1{
+text-align:center;
+color:#38bdf8;
+text-shadow:0 0 20px #38bdf8;
+margin-bottom:20px;
 }
 
-function calc(){
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
 
-let l=+level.value;
-let t=+target.value;
-let hit=+xphit.value;
-let mul=+xpMulti.value;
+.panel{
+background:rgba(15,23,42,0.85);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:18px;
+padding:25px;
+backdrop-filter:blur(10px);
+}
 
-let total=0;
-for(let i=l;i<t;i++) total+=xp(i);
+h2{
+color:#22d3ee;
+}
 
-let xpHit=hit*mul;
-let speed=atk(l);
+label{
+display:block;
+margin-top:10px;
+color:#94a3b8;
+}
 
-let sec=total/xpHit/speed;
+input,select{
+width:100%;
+padding:12px;
+margin-top:6px;
+border:none;
+border-radius:10px;
+background:#0b1220;
+color:white;
+}
 
-out.innerHTML=`
-XP Needed: <b>${format(total)}</b><br>
-Attack Speed: <b>${speed.toFixed(3)}/s</b><br>
-Time: <b>${time(sec)}</b>
-`;
+.inline{
+display:flex;
+gap:10px;
+}
+
+button{
+width:100%;
+margin-top:15px;
+padding:12px;
+border:none;
+border-radius:12px;
+background:#22d3ee;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+background:#0ea5e9;
+}
+
+#out{
+margin-top:10px;
+font-size:18px;
+line-height:1.8;
 }
