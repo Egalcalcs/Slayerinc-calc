@@ -3,21 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stage Grinder Calculator</title>
-
+<title>Stage Grinder</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="container">
+<div class="bg"></div>
 
-<h1>Stage Grinder Calculator</h1>
+<div class="app">
+
+<h1>Stage Grinder System</h1>
 
 <div class="grid">
 
 <!-- INPUT -->
-<div class="card">
+<div class="panel">
 
 <h2>Setup</h2>
 
@@ -29,8 +30,7 @@
 
 <label>XP per Hit</label>
 
-<div class="row">
-
+<div class="inline">
 <input id="xphit" type="number" value="10">
 
 <select id="xpMulti">
@@ -40,19 +40,18 @@
 <option value="1000000000">B</option>
 <option value="1000000000000">T</option>
 </select>
-
 </div>
 
-<button onclick="calculate()">CALCULATE</button>
+<button onclick="calc()">CALCULATE</button>
 
 </div>
 
 <!-- OUTPUT -->
-<div class="card">
+<div class="panel">
 
 <h2>Results</h2>
 
-<div id="result">Press calculate</div>
+<div id="out">Ready</div>
 
 </div>
 
@@ -61,6 +60,5 @@
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
